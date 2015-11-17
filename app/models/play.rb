@@ -1,4 +1,11 @@
 class Play < ActiveRecord::Base
+  validates :word, presence: true,
+                   format: { with: /\A[a-zA-Z]+\z/,
+                   message: "only allow letters" },
+                   length: { maximum: 7 }
+
+  scope :reverse_order, -> { order(created_at: :desc) }
+  scope :limit_three, -> { reverse_order.limit(3) }
 
   def letter_scores
     {"A"=>1, "B"=>3, "C"=>3, "D"=>2, "E"=>1, "F"=>4, "G"=>2, "H"=>4, "I"=>1, "J"=>8,
